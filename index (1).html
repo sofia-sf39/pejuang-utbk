@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Semangat dari Sofia</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html {
+      width: 100%;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f0f0 url('https://images.unsplash.com/photo-1581090700227-1e8f2d79d8bc?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slide {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      background-color: rgba(255,255,255,0.85);
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      max-width: 80%;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .slide.active { display: flex; }
+    h2 { font-size: 1.8rem; margin-bottom: 20px; }
+    p { font-size: 1.2rem; margin-bottom: 30px; }
+    input {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover { background-color: #0056b3; }
+    .error { color: red; margin-bottom: 20px; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slide active" id="slide1">
+    <h2>Masukkan Nama Kamu</h2>
+    <input type="text" id="nameInput" placeholder="Contoh: Farrel" />
+    <div class="error" id="errorText"></div>
+    <button onclick="validateName()">Masuk</button>
+    <button onclick="toggleMusic()" id="musicBtn">Pause Musik</button>
+  </div>
+
+  <div class="slide" id="slide2">
+    <p>Hai everyone, apa kabar?</p>
+    <p>Semangat buat yang ikut UTBK, tinggal hitungan hari lagi loh. Good luck!</p>
+    <p>by: Sofia</p>
+    <button onclick="nextSlide()">Next</button>
+    <button onclick="trySkip()">Skip</button>
+  </div>
+
+  <div class="slide" id="slide3">
+    <p id="skipWarning">Maaf tidak bisa di skip, next ya.</p>
+    <button onclick="nextSlide()">Next</button>
+  </div>
+
+  <div class="slide" id="slide4">
+    <p>Pejuang PK PM masa nyantai terus? ayo dongg SEMANGAT!!!</p>
+    <button onclick="nextSlide()">Next</button>
+  </div>
+
+  <div class="slide" id="slide5">
+    <p>Thank u guys, ditunggu kabar baiknya yaa..</p>
+  </div>
+
+  <audio id="bgMusic" autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
+    Browser kamu tidak mendukung audio.
+  </audio>
+
+  <script>
+    const allowedNames = ["farrel", "dimas", "gladys", "reva", "galuh"];
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+
+    function toggleMusic() {
+      const music = document.getElementById("bgMusic");
+      const btn = document.getElementById("musicBtn");
+      if (music.paused) {
+        music.play();
+        btn.innerText = "Pause Musik";
+      } else {
+        music.pause();
+        btn.innerText = "Play Musik";
+      }
+    }
+
+    function validateName() {
+      const name = document.getElementById("nameInput").value.toLowerCase().trim();
+      const errorText = document.getElementById("errorText");
+      if (allowedNames.includes(name)) {
+        nextSlide();
+      } else {
+        errorText.textContent = "Maaf hanya Farrel, Dimas, Gladys, Reva, Galuh yang diijinkan masuk.";
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide < slides.length - 1) {
+        slides[currentSlide].classList.remove('active');
+        currentSlide++;
+        slides[currentSlide].classList.add('active');
+      }
+    }
+
+    function trySkip() {
+      nextSlide(); // Pindah ke warning slide
+    }
+  </script>
+
+</body>
+</html>
